@@ -1,7 +1,5 @@
 import math
 import datetime
-from app.shop import Shop
-
 
 class Customer:
     def __init__(self, data: dict) -> None:
@@ -18,14 +16,14 @@ class Customer:
             + (self.location[1] - shop_location[1]) ** 2
         )
 
-    def calculate_trip_cost(self, shop: Shop, fuel_price: float) -> float:
+    def calculate_trip_cost(self, shop, fuel_price: float) -> float:
         distance = self.get_distance(shop.location)
         fuel_needed = (2 * distance * self.fuel_consumption) / 100
         fuel_cost = fuel_needed * fuel_price
         product_cost = shop.calculate_products_cost(self.cart)
         return fuel_cost + product_cost
 
-    def print_receipt(self, shop: Shop) -> None:
+    def print_receipt(self, shop) -> None:
         now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"Date: {now}")
         print(f"Thanks, {self.name}, for your purchase!")
