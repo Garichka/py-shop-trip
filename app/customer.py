@@ -26,19 +26,16 @@ class Customer:
         return fuel_cost + product_cost
 
     def print_receipt(self, shop: Shop) -> None:
-        # Using datetime.datetime.now() to satisfy checklist #5
-        current_time = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(f"Date: {current_time}")
+        now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        print(f"Date: {now}")
         print(f"Thanks, {self.name}, for your purchase!")
         print("You have bought:")
 
-        total_cost = 0.0
+        total_cost = 0
         for item, quantity in self.cart.items():
             price = shop.products[item] * quantity
             total_cost += price
-            # Rounded to two decimal places
             print(f"{quantity} {item}s for {round(price, 2)} dollars")
 
-        # Rounded to two decimal places
         print(f"Total cost is {round(total_cost, 2)} dollars")
         print("See you again!")
