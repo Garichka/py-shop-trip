@@ -1,6 +1,6 @@
 import json
-from customer import Customer
-from shop import Shop
+from app.customer import Customer
+from app.shop import Shop
 
 
 def shop_trip() -> None:
@@ -13,13 +13,14 @@ def shop_trip() -> None:
 
     for person in customers:
         print(f"{person.name} has {person.money} dollars")
-
         cheapest_shop = None
-        min_cost = float('inf')
+        min_cost = float("inf")
 
         for shop in shops:
             cost = person.calculate_trip_cost(shop, fuel_price)
-            print(f"{person.name}'s trip to the {shop.name} costs {round(cost, 2)}")
+            # Исправляем E501: разбиваем длинную строку
+            print(f"{person.name}'s trip to the {shop.name} "
+                  f"costs {round(cost, 2)}")
 
             if cost < min_cost:
                 min_cost = cost
@@ -27,17 +28,11 @@ def shop_trip() -> None:
 
         if cheapest_shop and person.money >= min_cost:
             print(f"{person.name} rides to {cheapest_shop.name}\n")
-
-            # Purchase process
             person.print_receipt(cheapest_shop)
-
-            # Post-trip updates
             person.money -= min_cost
             print(f"\n{person.name} rides home")
             print(f"{person.name} now has {round(person.money, 2)} dollars\n")
         else:
-            print(f"{person.name} doesn't have enough money to make a purchase in any shop\n")
-
-
-if __name__ == "__main__":
-    shop_trip()
+            # Исправляем E501
+            print(f"{person.name} doesn't have enough money "
+                  f"to make a purchase in any shop\n")
