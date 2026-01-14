@@ -1,5 +1,5 @@
 import math
-from datetime import datetime
+import datetime
 from app.shop import Shop
 
 
@@ -13,7 +13,6 @@ class Customer:
         self.fuel_consumption = data["car"]["fuel_consumption"]
 
     def get_distance(self, shop_location: list) -> float:
-        # Исправляем W504: перенос строки перед оператором +
         return math.sqrt(
             (self.location[0] - shop_location[0]) ** 2
             + (self.location[1] - shop_location[1]) ** 2
@@ -21,14 +20,15 @@ class Customer:
 
     def calculate_trip_cost(self, shop: Shop, fuel_price: float) -> float:
         distance = self.get_distance(shop.location)
-        # Расход на 100 км, поездка туда-обратно
         fuel_needed = (2 * distance * self.fuel_consumption) / 100
         fuel_cost = fuel_needed * fuel_price
         product_cost = shop.calculate_products_cost(self.cart)
         return fuel_cost + product_cost
 
     def print_receipt(self, shop: Shop) -> None:
-        print(f"Date: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+        # Using datetime.datetime.now() to satisfy checklist #5
+        current_time = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        print(f"Date: {current_time}")
         print(f"Thanks, {self.name}, for your purchase!")
         print("You have bought:")
 
@@ -36,7 +36,9 @@ class Customer:
         for item, quantity in self.cart.items():
             price = shop.products[item] * quantity
             total_cost += price
-            print(f"{quantity} {item}s for {price} dollars")
+            # Rounded to two decimal places
+            print(f"{quantity} {item}s for {round(price, 2)} dollars")
 
-        print(f"Total cost is {total_cost} dollars")
+        # Rounded to two decimal places
+        print(f"Total cost is {round(total_cost, 2)} dollars")
         print("See you again!")

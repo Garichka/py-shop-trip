@@ -18,7 +18,6 @@ def shop_trip() -> None:
 
         for shop in shops:
             cost = person.calculate_trip_cost(shop, fuel_price)
-            # Исправляем E501: разбиваем длинную строку
             print(f"{person.name}'s trip to the {shop.name} "
                   f"costs {round(cost, 2)}")
 
@@ -28,11 +27,14 @@ def shop_trip() -> None:
 
         if cheapest_shop and person.money >= min_cost:
             print(f"{person.name} rides to {cheapest_shop.name}\n")
+
+            # Update customer location to shop location upon arrival
+            person.location = cheapest_shop.location
+
             person.print_receipt(cheapest_shop)
             person.money -= min_cost
             print(f"\n{person.name} rides home")
             print(f"{person.name} now has {round(person.money, 2)} dollars\n")
         else:
-            # Исправляем E501
             print(f"{person.name} doesn't have enough money "
                   f"to make a purchase in any shop\n")
